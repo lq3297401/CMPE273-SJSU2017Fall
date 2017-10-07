@@ -12,7 +12,7 @@ docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.1 do
 
 ```sh
 # Generate Stub for client and server
-docker run -it --rm --name grpc-tools -v "$PWD":/usr/src/myapp -w /usr/src/myapp qi_273_lab1:latest python3.6 -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. datastore.proto
+docker run -it --rm --name grpc-tools -v $(pwd):/usr/src/myapp -w /usr/src/myapp qi_273_lab1:latest python3.6 -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. datastore.proto
 
 
 # Server
