@@ -34,3 +34,11 @@ Client is connecting to Server at 192.168.0.1:3000...
 ## GET Request: key = 94ccdd436c9b467baf6799fb6fbcf275
 ## GET Response: value = foo
 ```
+
+```sh
+Client is connecting to Server at 192.168.0.1:3000...
+## PUT Request: value = foo
+## PUT Response: key = 7e01736938644ce88f7ea460e57f04b5
+## GET Request: key = 7e01736938644ce88f7ea460e57f04b5
+## GET Response: value = foo
+```
