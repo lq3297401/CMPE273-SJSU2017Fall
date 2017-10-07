@@ -1,4 +1,4 @@
-### This is Lab1 for SJSU CMPE 273-Fall 2017 course of Professor Si Thu Aung
+### This is Lab1 for SJSU CMPE 273-Fall 2017 course of Professor Si Thu Aung_Due Oct 7 at 11:59pm
 
 * Create a Docker image from Dockerfile from Professor Si Thu Aung's example: [Build a Docker Image with RocksDB and gRPC](https://github.com/sithu/cmpe273-fall17/tree/master/docker).
 
