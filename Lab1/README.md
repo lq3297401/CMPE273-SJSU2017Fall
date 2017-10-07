@@ -25,6 +25,8 @@ docker run -it --rm --name lab1-client -v $(pwd):/usr/src/myapp -w /usr/src/myap
 
 ### My Output on Client
 
+![Lab1_ClientOutput_Qi](https://github.com/lq3297401/CMPE273-SJSU2017Fall/blob/master/Lab1/Lab1_ClientOutput_Qi%20Liu.jpg?raw=true)
+
 ```sh
 Client is connecting to Server at 192.168.0.1:3000...
 ## PUT Request: value = foo
