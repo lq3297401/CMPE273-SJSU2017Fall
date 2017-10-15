@@ -1,3 +1,5 @@
+# curl http://localhost:8000/api/v1/scripts -d "data=It's my birthday" -X POST
+# curl http://localhost:8000/api/v1/scripts/123456 -X GET
 
 from flask import Flask, request
 from flask_restful import Resource, Api
