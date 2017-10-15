@@ -1,4 +1,4 @@
-# curl http://localhost:8000/api/v1/scripts -d "data=It's my birthday" -X POST
+# curl http://localhost:8000/api/v1/scripts -d "data=It's my number" -X POST
 # curl http://localhost:8000/api/v1/scripts/123456 -X GET
 
 from flask import Flask, request
@@ -13,7 +13,7 @@ class ScriptUploader(Resource):
     def post(self):
         s_id="123456"
         scripts[s_id] = request.form['data']
-        return {"scripts": s_id}
+        return {"script-id": s_id}
 
 class ScriptDownloader(Resource):
     def get(self, script_id):
