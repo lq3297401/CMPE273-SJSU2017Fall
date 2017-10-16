@@ -1,4 +1,3 @@
-# curl http://localhost:8000/api/v1/scripts -d "data=It's my number" -X POST
 # curl http://localhost:8000/api/v1/scripts/123456 -X GET
 
 # curl http://localhost:8000/api/v1/scripts -d "data=@/$(pwd)/foo.py" -X POST
@@ -25,14 +24,16 @@ class ScriptUploader(Resource):
         print("201 Created")
         x = randint(100000, 999999)    # Pick a random number between 100000 and 999999.
         s_id = str (x)
+        #TODO save foo.py to rocksdb value by flask head handler
         scripts[s_id] = request.form['data']
         GlobalVar.db.put(s_id, scripts[s_id])
-        return {s_id:GlobalVar.db.get(s_id)}
+        return {s_id:scripts[s_id]}
+
         # return {"script-id": s_id }
 
 class ScriptDownloader(Resource):
     def get(self, script_id):
-        print("get data from rocksDB")
+        print("200 OK")
         # return {script_id: scripts[script_id]}
         return GlobalVar.db.get(script_id)
 
