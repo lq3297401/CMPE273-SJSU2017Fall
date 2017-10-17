@@ -2,7 +2,11 @@
 
 # curl http://localhost:8000/api/v1/scripts -d "data=@/$(pwd)/foo.py" -X POST
 
-# curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/tmp/foo.py" http://localhost:8000/api/v1/scripts
+# curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/$(pwd)/foo.py" http://localhost:8000/api/v1/scripts
+
+-F是直接把file传过来，server 拿到file以后先存到server 的file system,记住存的地址，然后把本地的这个地址配合ID保存进rocksdb
+
+读取时，用id找到本地的地址，从地址拿到文件，ececute  exec(open(foo.py)).read()，然后返回execute的结果
 
 import rocksdb
 

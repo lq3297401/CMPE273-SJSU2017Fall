@@ -7,6 +7,6 @@
 
 3. Run server in 1st terminal:
     python server.py
-    
+
 4. Run "curl request" in 2nd terminal:
     curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/tmp/foo.py" http://localhost:8000/api/v1/scripts
