@@ -12,11 +12,12 @@
 ```
 
 ## 3. Run server in 1st terminal:
-    python server.py
+     python server.py
 
 ## 4-1. Run "curl request1" in 2nd terminal:
 ```
-    curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/$(pwd)/foo.py" http://localhost:8000/api/v1/scripts
+    curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/$(pwd)/foo.py" 
+    http://localhost:8000/api/v1/scripts
 ```
     this request will generate a random number as script_id, the expected output is:
  
@@ -30,7 +31,7 @@
 
 ## 4-2. Run "curl request2" in 2nd terminal:
 ```
-   curl -i http://localhost:8000/api/v1/scripts/<script_id>
+    curl -i http://localhost:8000/api/v1/scripts/<script_id>
 ```
      replace the <script_id> as the one in output above, the expected output is:
      
