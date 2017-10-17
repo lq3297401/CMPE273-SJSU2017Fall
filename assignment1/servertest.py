@@ -1,10 +1,12 @@
 # reference: http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
 #            http://pythonexample.com/code/flask-file-upload-example/
 import os
-from flask import Flask, request, redirect, url_for, send_from_directory
+from os import path
+from flask import Flask, request, redirect, url_for, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from random import *
-json
+import rocksdb
+
 
 UPLOAD_FOLDER = '/Users/qi/Desktop/273Git/assignment1/upload/'  #the place that file save
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'py', 'gif'])
@@ -20,6 +22,7 @@ def allowed_file(filename):
 
 @app.route('/api/v1/scripts', methods=['POST'])
 def upload_file():
+    s_id = "12345"
     if request.method == 'POST':
         # check if the post request has the file part
         if 'data' not in request.files:  # the request use "data" to passing file address
@@ -34,16 +37,32 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # return redirect(url_for('uploaded_file',filename=filename))
+            file_address = os.path.join(app.config['UPLOAD_FOLDER'], filename) #/Users/qi/Desktop/273Git/assignment1/upload/foo.py
+            db.put(s_id, file_address)
+            result = {'script-id':s_id}
+            print '201 Created\n'
+            return jsonify(result)
 
-    return '201 Created\n'
-    # return os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print db.get(script_id)
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 
+@app.route('/api/v1/scripts/<script_id>', methods=['GET'])
+def get_script(script_id):
+    print {"script-id": script_id}
+    fileDir = db.get(script_id)
+    print {"fileDir": fileDir}
+    # with open(fileDir) as f:
+    #     # exec(f.read())
+    #     print f.read()
+
+    return ''
+
 if __name__ == "__main__":
+    db = rocksdb.DB("assignment1.db", rocksdb.Options(create_if_missing=True))
     app.run(port=8000)
     app.run(debug=True)
