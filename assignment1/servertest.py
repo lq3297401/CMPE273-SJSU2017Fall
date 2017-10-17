@@ -22,7 +22,7 @@ def allowed_file(filename):
 
 @app.route('/api/v1/scripts', methods=['POST'])
 def upload_file():
-    s_id = "12345"
+    s_id = "123456"
     if request.method == 'POST':
         # check if the post request has the file part
         if 'data' not in request.files:  # the request use "data" to passing file address
@@ -37,13 +37,11 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            file_address = os.path.join(app.config['UPLOAD_FOLDER'], filename) #/Users/qi/Desktop/273Git/assignment1/upload/foo.py
+            file_address = str(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #/Users/qi/Desktop/273Git/assignment1/upload/foo.py
             db.put(s_id, file_address)
             result = {'script-id':s_id}
             print '201 Created\n'
             return jsonify(result)
-
-            print db.get(script_id)
 
 
 @app.route('/uploads/<filename>')
@@ -53,16 +51,14 @@ def uploaded_file(filename):
 
 @app.route('/api/v1/scripts/<script_id>', methods=['GET'])
 def get_script(script_id):
-    print {"script-id": script_id}
     fileDir = db.get(script_id)
-    print {"fileDir": fileDir}
-    # with open(fileDir) as f:
-    #     # exec(f.read())
-    #     print f.read()
-
+    with open(fileDir) as f:
+        exec(f.read())
+        # print f.read()
+    print '200 OK'
     return ''
 
 if __name__ == "__main__":
-    db = rocksdb.DB("assignment1.db", rocksdb.Options(create_if_missing=True))
+    db = rocksdb.DB("assign1.db", rocksdb.Options(create_if_missing=True))
     app.run(port=8000)
     app.run(debug=True)

@@ -3,6 +3,7 @@
 # curl http://localhost:8000/api/v1/scripts -d "data=@/$(pwd)/foo.py" -X POST
 
 # curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@/$(pwd)/foo.py" http://localhost:8000/api/v1/scripts
+#curl -i http://localhost:8000/api/v1/scripts/123456
 
 -F是直接把file传过来，server 拿到file以后先存到server 的file system,记住存的地址，然后把本地的这个地址配合ID保存进rocksdb
 

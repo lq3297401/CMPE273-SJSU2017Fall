@@ -26,7 +26,7 @@
   writable_file_max_buffer_size=1048576
   WAL_size_limit_MB=0
   max_subcompactions=1
-  wal_dir=hw1.db
+  wal_dir=assign1.db
   max_total_wal_size=0
   db_write_buffer_size=0
   avoid_flush_during_shutdown=false
