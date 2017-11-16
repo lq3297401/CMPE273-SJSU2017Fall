@@ -28,9 +28,14 @@ class WalletServicer(wallet_pb2.WalletServicer):
         Initializes Ferent instance and saves it into another instance variable.
         '''
         # TODO
+        #generate key from Fernet function
         self.key = Fernet.generate_key()
+        #print out key's information
+        #key=%s means the %s part will replaced by the parameter after the followed %
         print "Encryption key=%s" % self.key
-        self.fernet = Fernet(self.key)
+        # f = Fernet(key), Initializes Ferent instance from key above
+        self.ferent = Ferent(self.key)
+
 
     def encrypt(self, request, context):
         '''
@@ -42,9 +47,13 @@ class WalletServicer(wallet_pb2.WalletServicer):
         :rtype: wallet_pb2.CardEncryptResponse
         '''
         # TODO
+        #from Fernet, we know that f = Fernet(key), token = f.encrypt(bytes("my deep dark secret"))
+        # here the f euqals self.ferent we initialized above
         print "Encrypting the card detail...\n", request.card
-        _token = self.fernet.encrypt(bytes(request.card))
-        return wallet_pb2.CardEncryptResponse(token=_token)
+        token_encrypt = self.ferent.encrypt(bytes(request.card))
+        # from .proto we know that CardEncryptResponse {token}
+        # So don't forget to write the function with classname like: wallet_pb2.CardEncryptResponse
+        return wallet_pb2.CardEncryptResponse(token = token_encrypt)
 
     def decrypt(self, request, context):
         '''
@@ -56,9 +65,12 @@ class WalletServicer(wallet_pb2.WalletServicer):
         :rtype: wallet_pb2.CardDecryptResponse
         '''
         # TODO
+        #from .proto, f euqals self.ferent we initialized above , f.decrypt(token)
         print "Decrypting the card token=%s" % request.token
-        plain_text = self.fernet.decrypt(bytes(request.token))
-        return wallet_pb2.CardDecryptResponse(card_in_plain_text=plain_text)
+        card_in_plain_text_decrypt = self.ferent.decrypt(bytes(request.token))
+        # from .proto we know that CardEncryptResponse {string card_in_plain_text}
+        # So don't forget to write the function with classname like: wallet_pb2.CardDecryptResponse
+        return wallet_pb2.CardDecryptResponse(card_in_plain_text = card_in_plain_text_decrypt)
 
 
 def run(host, port):
@@ -69,6 +81,7 @@ def run(host, port):
     wallet_pb2_grpc.add_WalletServicer_to_server(WalletServicer(), server)
     server.add_insecure_port('%s:%d' % (host, port))
     server.start()
+
 
     try:
         while True:

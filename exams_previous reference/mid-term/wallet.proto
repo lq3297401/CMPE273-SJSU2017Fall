@@ -23,6 +23,7 @@ message CardDecryptResponse {
 }
 
 service Wallet {
+  #这里叫wallet，server 就叫WalletServicer
     rpc encrypt(CardEncryptRequest) returns (CardEncryptResponse) {}
     rpc decrypt(CardDecryptRequest) returns (CardDecryptResponse) {}
 }
