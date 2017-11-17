@@ -5,3 +5,9 @@ Assignment for SJSU CMPE 273
   * RocksDB native - https://github.com/facebook/rocksdb/blob/master/INSTALL.md
   * gRPC Docker - https://github.com/grpc/grpc-docker-library/tree/master/1.4/python
 
+* **Assignment1** is to implement a dynamic Python invoker REST service.
+The service will have the following features:
+1. Python Script Uploader
+POST http://localhost:8000/api/v1/scripts
+2. Python Script Invoker
+GET http://localhost:8000/api/v1/scripts/{script-id}
