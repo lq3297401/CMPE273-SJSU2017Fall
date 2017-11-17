@@ -7,7 +7,7 @@ Assignment for SJSU CMPE 273
 
 * **Assignment1** is to implement a dynamic Python invoker REST service.
 The service will have the following features:
-1. Python Script Uploader
+  * Python Script Uploader
 POST http://localhost:8000/api/v1/scripts
-2. Python Script Invoker
+  * Python Script Invoker
 GET http://localhost:8000/api/v1/scripts/{script-id}
