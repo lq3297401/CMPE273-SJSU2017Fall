@@ -1,5 +1,4 @@
-# This folder is for SJSU CMPE273 2017 Fall Course
-Assignment 2 for SJSU CMPE 273
+# Assignment 2 for SJSU CMPE 273
 
 * **Assignment2** is to implement a RocksDB replication in Python using the design from
 [Rocksplicator](https://medium.com/@Pinterest_Engineering/open-sourcing-rocksplicator-a-real-time-rocksdb-data-replicator-558cd3847a9d). You can use Lab 1 as a based line. Differences form the replicator are:
