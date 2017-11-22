@@ -22,7 +22,7 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
         self.db = rocksdb.DB("server.db", rocksdb.Options(create_if_missing=True))
         print("-------- Main server start --------")
-        # self.
+
 
     def put(self, request, context):
         '''
@@ -43,9 +43,11 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         '''
         print("*** Get data from RocksDB ***")
         print(request)
-        value = None
-        value = self.db.get(request.data.encode())
-        return datastore_pb2.Response(data=value)
+        value = self.db.get(request.key)
+        print(request.key, value)
+        # return datastore_pb2.Response(key=value)
+
+
 
 # value = None
 # value = self.db.get(request.data.encode())
