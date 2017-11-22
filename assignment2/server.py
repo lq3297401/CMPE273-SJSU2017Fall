@@ -44,8 +44,8 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         print("*** Get data from RocksDB ***")
         print(request)
         value = self.db.get(request.key)
-        print(request.key, value)
-        # return datastore_pb2.Response(key=value)
+        print("value = ", value)
+        return datastore_pb2.Response(key=request.key,data=value)
 
 
 
@@ -54,19 +54,19 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
 # return datastore_pb2.Response(data=value)
 
 
-    def register(self, request, context):
-        '''
-        get slave register information
-        '''
-        print("-------- Slave server information --------")
-
-        registerInfo[request.slaveId] = request.port
-        # dict = {'SlaveServer slaveId': request.slaveId, 'SlaveServer port': request.port}
-        # print "SlaveServer slaveId: ", dict['SlaveServer slaveId'], "SlaveServer port: ", dict[request.port]
-
-        # slaveId = self.db.put(request.slaveId, request.port)
-        # print("Register slaveId = " + request.slaveId + ", register port = " + request.port)
-        return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
+    # def register(self, request, context):
+    #     '''
+    #     get slave register information
+    #     '''
+    #     print("-------- Slave server information --------")
+    #
+    #     registerInfo[request.slaveId] = request.port
+    #     # dict = {'SlaveServer slaveId': request.slaveId, 'SlaveServer port': request.port}
+    #     # print "SlaveServer slaveId: ", dict['SlaveServer slaveId'], "SlaveServer port: ", dict[request.port]
+    #
+    #     # slaveId = self.db.put(request.slaveId, request.port)
+    #     # print("Register slaveId = " + request.slaveId + ", register port = " + request.port)
+    #     return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
 
 def run(host, port):
     '''
