@@ -10,6 +10,7 @@ import datastore_pb2_grpc
 # import uuslaveId
 import rocksdb
 import sys
+import os
 
 from concurrent import futures
 
@@ -22,29 +23,30 @@ PORT = 3000
 
 class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
+        os.system('rm server.db/LOCK')
         self.db = rocksdb.DB("server.db", rocksdb.Options(create_if_missing=True))
         self.slaveId="0"
         self.port=str(PORT)
         print("-------- Main server start --------")
 
 
-    def sendInfo(self, slaveId, port):
-        print("*** Sending slaveServer slaveId and port to main server ***")
-        # temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-        temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-        print("temmRequest", temmRequest)
-        # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-        return datastore_pb2.SlaveRegisterResponse(slaveId=slaveId, port=port)
-
-    def getInfo(self, request, context):
-        '''
-        get slave register information
-        '''
-        print("-------- Slave server information --------")
-        print(request)
-        print("slaveId = " + request.slaveId, "port = " + request.port)
-        # getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-        return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
+    # def sendInfo(self, slaveId, port):
+    #     print("*** Sending slaveServer info ***")
+    #     # temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
+    #     temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
+    #     print("SlaveServer infor sending", temmRequest)
+    #     # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
+    #     return datastore_pb2.SlaveRegisterResponse(slaveId=slaveId, port=port)
+    #
+    # def getInfo(self, request, context):
+    #     '''
+    #     get slave register information
+    #     '''
+    #     print("*** Getting slave server information ***")
+    #     print(request)
+    #     print("slaveId = " + request.slaveId, "port = " + request.port)
+    #     # getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
+    #     return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
 
 
     def put(self, request, context):
@@ -82,6 +84,8 @@ def run(host, port):
     try:
         while True:
             print("Server started at...%d" % port)
+            # client = MyDatastoreServicer()
+            # client.getInfo(client.request, client.context)
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)

@@ -19,10 +19,10 @@ class DatastoreClient():
         self.channel = grpc.insecure_channel('%s:%d' % (host, port))
         self.stub = datastore_pb2.DatastoreStub(self.channel)
 
-        DatabaseName = "serverSlave.db"
-        os.system('rm serverSlave.db/LOCK')
-        # DatabaseName = "db/follower_" + FollowerId + ".db"
-        self.db = rocksdb.DB(DatabaseName,rocksdb.Options(create_if_missing=True))
+
+        # DatabaseName = "serverSlave.db"
+        # os.system('rm serverSlave.db/LOCK')
+        # self.db = rocksdb.DB(DatabaseName,rocksdb.Options(create_if_missing=True))
 
         print("--------- Client start running ---------")
 
@@ -44,9 +44,8 @@ class DatastoreClient():
     def get(self, key):
         print("*** Geting data from main database ***")
         print("Search key = " + key)
-        value = self.db.get(key)
-        print(key, value)
         return self.stub.get(datastore_pb2.GetRequest(key=key))
+
 
 client = DatastoreClient()
 
@@ -57,7 +56,8 @@ if len(sys.argv) == 3:
 
 elif len(sys.argv) == 2:
     searchKey = sys.argv[1]
-    client.get(searchKey)
+    response = client.get(searchKey)
+    print(response)
 else:
     print("Wrong Input. Please follow the input format as follows:\nExample for inserting key-value data: client.py key1 value1 \nExample for getting data from key1: client.py key1")
     exit()
