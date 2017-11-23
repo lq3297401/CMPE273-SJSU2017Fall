@@ -24,16 +24,6 @@ class DatastoreStub(object):
         request_serializer=datastore__pb2.GetRequest.SerializeToString,
         response_deserializer=datastore__pb2.Response.FromString,
         )
-    self.sendInfo = channel.unary_unary(
-        '/Datastore/sendInfo',
-        request_serializer=datastore__pb2.SlaveRegisterRequest.SerializeToString,
-        response_deserializer=datastore__pb2.SlaveRegisterResponse.FromString,
-        )
-    self.getInfo = channel.unary_unary(
-        '/Datastore/getInfo',
-        request_serializer=datastore__pb2.SlaveRegisterRequest.SerializeToString,
-        response_deserializer=datastore__pb2.SlaveRegisterResponse.FromString,
-        )
 
 
 class DatastoreServicer(object):
@@ -54,20 +44,6 @@ class DatastoreServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def sendInfo(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def getInfo(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
 
 def add_DatastoreServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -80,16 +56,6 @@ def add_DatastoreServicer_to_server(servicer, server):
           servicer.get,
           request_deserializer=datastore__pb2.GetRequest.FromString,
           response_serializer=datastore__pb2.Response.SerializeToString,
-      ),
-      'sendInfo': grpc.unary_unary_rpc_method_handler(
-          servicer.sendInfo,
-          request_deserializer=datastore__pb2.SlaveRegisterRequest.FromString,
-          response_serializer=datastore__pb2.SlaveRegisterResponse.SerializeToString,
-      ),
-      'getInfo': grpc.unary_unary_rpc_method_handler(
-          servicer.getInfo,
-          request_deserializer=datastore__pb2.SlaveRegisterRequest.FromString,
-          response_serializer=datastore__pb2.SlaveRegisterResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

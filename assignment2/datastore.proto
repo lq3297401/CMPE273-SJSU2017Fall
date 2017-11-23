@@ -3,6 +3,7 @@ syntax = "proto3";
 message Request {
     string key = 1;
     string data = 2;
+    string requestType = 3;
 }
 
 message GetRequest {
@@ -14,21 +15,7 @@ message Response {
     string data = 2;
 }
 
-message SlaveRegisterRequest {
-    string slaveId = 1;
-    string port = 2;
-}
-
-message SlaveRegisterResponse {
-    string slaveId = 1;
-    string port = 2;
-}
-
 service Datastore {
    rpc put(Request) returns (Response) {}
    rpc get(GetRequest) returns (Response) {}
-
-   rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-   rpc getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-
 }

@@ -19,25 +19,13 @@ class DatastoreClient():
         self.channel = grpc.insecure_channel('%s:%d' % (host, port))
         self.stub = datastore_pb2.DatastoreStub(self.channel)
 
-
-        # DatabaseName = "serverSlave.db"
-        # os.system('rm serverSlave.db/LOCK')
-        # self.db = rocksdb.DB(DatabaseName,rocksdb.Options(create_if_missing=True))
-
         print("--------- Client start running ---------")
 
-    # def sendInfo(self, slaveId, port):
-    #     print("Sending slaveServer slaveId and port to main server")
-    #     # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-    #     infoResponse=self.SlaveRegisterRequest(slaveId=1 port=3000)
-    #     return datastore_pb2_grpc.SlaveRegisterResponse()
-
-
-    def put(self, key, data):
+    def put(self, key, data, requestType="data"):
     # def put(self, data):
         print("*** Putting data to main database ***")
         print("key = " + key + ", data = " + data)
-        temmRequest = datastore_pb2.Request(key=key, data=data)
+        temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
         # print("temReq = ", temReq)
         return self.stub.put(temmRequest)
 
@@ -53,6 +41,7 @@ if len(sys.argv) == 3:
     insertKey = sys.argv[1]
     insertValue = sys.argv[2]
     client.put(insertKey,insertValue)
+
 
 elif len(sys.argv) == 2:
     searchKey = sys.argv[1]

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='datastore.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"$\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"5\n\x14SlaveRegisterRequest\x12\x0f\n\x07slaveId\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t\"6\n\x15SlaveRegisterResponse\x12\x0f\n\x07slaveId\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t2\xc3\x01\n\tDatastore\x12\x1c\n\x03put\x12\x08.Request\x1a\t.Response\"\x00\x12\x1f\n\x03get\x12\x0b.GetRequest\x1a\t.Response\"\x00\x12;\n\x08sendInfo\x12\x15.SlaveRegisterRequest\x1a\x16.SlaveRegisterResponse\"\x00\x12:\n\x07getInfo\x12\x15.SlaveRegisterRequest\x1a\x16.SlaveRegisterResponse\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"9\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t2J\n\tDatastore\x12\x1c\n\x03put\x12\x08.Request\x1a\t.Response\"\x00\x12\x1f\n\x03get\x12\x0b.GetRequest\x1a\t.Response\"\x00\x62\x06proto3')
 )
 
 
@@ -46,6 +46,13 @@ _REQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='requestType', full_name='Request.requestType', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -59,7 +66,7 @@ _REQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=19,
-  serialized_end=55,
+  serialized_end=76,
 )
 
 
@@ -89,8 +96,8 @@ _GETREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=57,
-  serialized_end=82,
+  serialized_start=78,
+  serialized_end=103,
 )
 
 
@@ -127,91 +134,13 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=84,
-  serialized_end=121,
-)
-
-
-_SLAVEREGISTERREQUEST = _descriptor.Descriptor(
-  name='SlaveRegisterRequest',
-  full_name='SlaveRegisterRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='slaveId', full_name='SlaveRegisterRequest.slaveId', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='port', full_name='SlaveRegisterRequest.port', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=123,
-  serialized_end=176,
-)
-
-
-_SLAVEREGISTERRESPONSE = _descriptor.Descriptor(
-  name='SlaveRegisterResponse',
-  full_name='SlaveRegisterResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='slaveId', full_name='SlaveRegisterResponse.slaveId', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='port', full_name='SlaveRegisterResponse.port', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=178,
-  serialized_end=232,
+  serialized_start=105,
+  serialized_end=142,
 )
 
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
-DESCRIPTOR.message_types_by_name['SlaveRegisterRequest'] = _SLAVEREGISTERREQUEST
-DESCRIPTOR.message_types_by_name['SlaveRegisterResponse'] = _SLAVEREGISTERRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), dict(
@@ -235,20 +164,6 @@ Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Messag
   ))
 _sym_db.RegisterMessage(Response)
 
-SlaveRegisterRequest = _reflection.GeneratedProtocolMessageType('SlaveRegisterRequest', (_message.Message,), dict(
-  DESCRIPTOR = _SLAVEREGISTERREQUEST,
-  __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:SlaveRegisterRequest)
-  ))
-_sym_db.RegisterMessage(SlaveRegisterRequest)
-
-SlaveRegisterResponse = _reflection.GeneratedProtocolMessageType('SlaveRegisterResponse', (_message.Message,), dict(
-  DESCRIPTOR = _SLAVEREGISTERRESPONSE,
-  __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:SlaveRegisterResponse)
-  ))
-_sym_db.RegisterMessage(SlaveRegisterResponse)
-
 
 
 _DATASTORE = _descriptor.ServiceDescriptor(
@@ -257,8 +172,8 @@ _DATASTORE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=235,
-  serialized_end=430,
+  serialized_start=144,
+  serialized_end=218,
   methods=[
   _descriptor.MethodDescriptor(
     name='put',
@@ -276,24 +191,6 @@ _DATASTORE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_GETREQUEST,
     output_type=_RESPONSE,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='sendInfo',
-    full_name='Datastore.sendInfo',
-    index=2,
-    containing_service=None,
-    input_type=_SLAVEREGISTERREQUEST,
-    output_type=_SLAVEREGISTERRESPONSE,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='getInfo',
-    full_name='Datastore.getInfo',
-    index=3,
-    containing_service=None,
-    input_type=_SLAVEREGISTERREQUEST,
-    output_type=_SLAVEREGISTERRESPONSE,
     options=None,
   ),
 ])
@@ -331,16 +228,6 @@ try:
           request_serializer=GetRequest.SerializeToString,
           response_deserializer=Response.FromString,
           )
-      self.sendInfo = channel.unary_unary(
-          '/Datastore/sendInfo',
-          request_serializer=SlaveRegisterRequest.SerializeToString,
-          response_deserializer=SlaveRegisterResponse.FromString,
-          )
-      self.getInfo = channel.unary_unary(
-          '/Datastore/getInfo',
-          request_serializer=SlaveRegisterRequest.SerializeToString,
-          response_deserializer=SlaveRegisterResponse.FromString,
-          )
 
 
   class DatastoreServicer(object):
@@ -361,20 +248,6 @@ try:
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def sendInfo(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def getInfo(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
 
   def add_DatastoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -387,16 +260,6 @@ try:
             servicer.get,
             request_deserializer=GetRequest.FromString,
             response_serializer=Response.SerializeToString,
-        ),
-        'sendInfo': grpc.unary_unary_rpc_method_handler(
-            servicer.sendInfo,
-            request_deserializer=SlaveRegisterRequest.FromString,
-            response_serializer=SlaveRegisterResponse.SerializeToString,
-        ),
-        'getInfo': grpc.unary_unary_rpc_method_handler(
-            servicer.getInfo,
-            request_deserializer=SlaveRegisterRequest.FromString,
-            response_serializer=SlaveRegisterResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -420,14 +283,6 @@ try:
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def sendInfo(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def getInfo(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
   class BetaDatastoreStub(object):
@@ -448,16 +303,6 @@ try:
       pass
       raise NotImplementedError()
     get.future = None
-    def sendInfo(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    sendInfo.future = None
-    def getInfo(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    getInfo.future = None
 
 
   def beta_create_Datastore_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -468,21 +313,15 @@ try:
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
       ('Datastore', 'get'): GetRequest.FromString,
-      ('Datastore', 'getInfo'): SlaveRegisterRequest.FromString,
       ('Datastore', 'put'): Request.FromString,
-      ('Datastore', 'sendInfo'): SlaveRegisterRequest.FromString,
     }
     response_serializers = {
       ('Datastore', 'get'): Response.SerializeToString,
-      ('Datastore', 'getInfo'): SlaveRegisterResponse.SerializeToString,
       ('Datastore', 'put'): Response.SerializeToString,
-      ('Datastore', 'sendInfo'): SlaveRegisterResponse.SerializeToString,
     }
     method_implementations = {
       ('Datastore', 'get'): face_utilities.unary_unary_inline(servicer.get),
-      ('Datastore', 'getInfo'): face_utilities.unary_unary_inline(servicer.getInfo),
       ('Datastore', 'put'): face_utilities.unary_unary_inline(servicer.put),
-      ('Datastore', 'sendInfo'): face_utilities.unary_unary_inline(servicer.sendInfo),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -496,21 +335,15 @@ try:
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
       ('Datastore', 'get'): GetRequest.SerializeToString,
-      ('Datastore', 'getInfo'): SlaveRegisterRequest.SerializeToString,
       ('Datastore', 'put'): Request.SerializeToString,
-      ('Datastore', 'sendInfo'): SlaveRegisterRequest.SerializeToString,
     }
     response_deserializers = {
       ('Datastore', 'get'): Response.FromString,
-      ('Datastore', 'getInfo'): SlaveRegisterResponse.FromString,
       ('Datastore', 'put'): Response.FromString,
-      ('Datastore', 'sendInfo'): SlaveRegisterResponse.FromString,
     }
     cardinalities = {
       'get': cardinality.Cardinality.UNARY_UNARY,
-      'getInfo': cardinality.Cardinality.UNARY_UNARY,
       'put': cardinality.Cardinality.UNARY_UNARY,
-      'sendInfo': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
     return beta_implementations.dynamic_stub(channel, 'Datastore', cardinalities, options=stub_options)

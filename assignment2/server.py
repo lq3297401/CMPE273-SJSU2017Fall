@@ -15,9 +15,7 @@ import os
 from concurrent import futures
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-registerInfo = {
-            "default SlaveServer slaveId":"default SlaveServer port"
-}
+registerInfo = {"default SlaveServer slaveId":"default SlaveServer port"}
 
 PORT = 3000
 
@@ -25,40 +23,24 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
         os.system('rm server.db/LOCK')
         self.db = rocksdb.DB("server.db", rocksdb.Options(create_if_missing=True))
-        self.slaveId="0"
-        self.port=str(PORT)
+        self.slaveId = "0"
+        self.port = str(PORT)
         print("-------- Main server start --------")
-
-
-    # def sendInfo(self, slaveId, port):
-    #     print("*** Sending slaveServer info ***")
-    #     # temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-    #     temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-    #     print("SlaveServer infor sending", temmRequest)
-    #     # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-    #     return datastore_pb2.SlaveRegisterResponse(slaveId=slaveId, port=port)
-    #
-    # def getInfo(self, request, context):
-    #     '''
-    #     get slave register information
-    #     '''
-    #     print("*** Getting slave server information ***")
-    #     print(request)
-    #     print("slaveId = " + request.slaveId, "port = " + request.port)
-    #     # getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-    #     return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
-
 
     def put(self, request, context):
         '''
         put data into RocksDB
         '''
-        print("*** Put data into RocksDB ***")
-        # print(request)
-        print(request)
+        if(request.requestType=="data"):
+            print("*** Put data into RocksDB ***")
+            # print(request)
+            print(request)
+            self.db.put(request.key, request.data)
+        elif(request.requestType=="register"):
+            print("*** Put register info into Dictionary ***")
+            print(request)
+            registerInfo[request.key] = request.data
 
-        # self.db.put(request.key.encode(), request.data.encode())
-        self.db.put(request.key, request.data)
         return datastore_pb2.Response(key=request.key, data=request.data)
 
 

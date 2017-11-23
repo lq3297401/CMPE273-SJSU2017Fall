@@ -19,7 +19,7 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 #             "default SlaveServer slaveId":"default SlaveServer port"
 # }
 
-PORT = 3000
+PORT = 3001
 # class MyDatastoreSlaveServicer():
 class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
@@ -28,49 +28,19 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
 
         # os.system('rm serverSlave.db/LOCK')
         # self.db = rocksdb.DB("serverSlave.db", rocksdb.Options(create_if_missing=True))
-        self.slaveId="1"
-        self.port=str(PORT)
-
+        self.slaveId = "1"
+        self.port = PORT
 
         print("-------- Slave server start --------")
 
-
-    def sendInfo(self, slaveId, port):
-        print("*** Sending slaveServer slaveId and port to main server ***")
-        # temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-        temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
-        print("SlaveServer infor sending", temmRequest)
-        # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
-        return datastore_pb2.SlaveRegisterResponse(slaveId=slaveId, port=port)
-
-    def getInfo(self, request, context):
-        '''
-        get slave register information
-        '''
-        print("-------- Slave server information --------")
-        print(request)
-        print("slaveId = " + request.slaveId, "port = " + request.port)
-        return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
-        # print("-------- Slave server information --------")
-        # print(request)
-        # print("slaveId = " + request.slaveId, "port = " + request.port)
-        # registerInfo[request.slaveId] = request.port
-        # temmRequest = datastore_pb2.Request(slaveId=request.slaveId, port=request.port)
-        # # print("temReq = ", temReq)
-        # return self.stub.getInfo(temmRequest)
-        # dict = {'SlaveServer slaveId': request.slaveId, 'SlaveServer port': request.port}
-        # print "SlaveServer slaveId: ", dict['SlaveServer slaveId'], "SlaveServer port: ", dict[request.port]
-
-
-
-
-    def put(self, key, data):
-    # def put(self, data):
-        print("*** Putting data to main database ***")
-        print("key = " + key + ", data = " + data)
-        temmRequest = datastore_pb2.Request(key=key, data=data)
+    def put(self, key, data, requestType="register"):
+        print("*** Putting register info to main main server dictionary ***")
+        print("Id = " + key + ", port = " + data)
+        temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
+        self.stub.put(temmRequest)
         # print("temReq = ", temReq)
-        return self.stub.put(temmRequest)
+        # return self.stub.put(temmRequest)
+        return
 
     def get(self, key):
         print("*** Geting data from main database ***")
@@ -91,20 +61,12 @@ def run(host, port):
         while True:
             print("Server started at...%d" % port)
             client = MyDatastoreSlaveServicer()
-            client.sendInfo(client.slaveId, client.port)
-            client.put(client.slaveId, client.port)
-            # response = client.get(searchKey)
-            # print(response)
+            print("sssssssssssssss",client.slaveId, client.port)
+            client.put("client.slaveId", "str(client.port)")
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
 
 
 if __name__ == '__main__':
-    # client = MyDatastoreSlaveServicer()
-    # client.sendInfo(client.slaveId, client.port)
     run('0.0.0.0', PORT)
-
-    # print( ", client.slaveId", client.slaveId, ", client.port", client.port)
-
-    # client.run(localhost,PORT)
