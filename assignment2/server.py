@@ -40,6 +40,8 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
             print("*** Put register info into Dictionary ***")
             print(request)
             registerInfo[request.key] = request.data
+            for key, value in registerInfo.iteritems():
+                print key, '\t', value
 
         return datastore_pb2.Response(key=request.key, data=request.data)
 

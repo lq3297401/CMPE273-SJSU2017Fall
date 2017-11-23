@@ -15,15 +15,13 @@ import os
 from concurrent import futures
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-# registerInfo = {
-#             "default SlaveServer slaveId":"default SlaveServer port"
-# }
 
-PORT = 3001
+MASTERSERVERPORT = 3000
+PORT=3001
 # class MyDatastoreSlaveServicer():
 class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
-        self.channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', PORT))
+        self.channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', MASTERSERVERPORT))
         self.stub = datastore_pb2_grpc.DatastoreStub(self.channel)
 
         # os.system('rm serverSlave.db/LOCK')
@@ -34,13 +32,10 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
         print("-------- Slave server start --------")
 
     def put(self, key, data, requestType="register"):
-        print("*** Putting register info to main main server dictionary ***")
-        print("Id = " + key + ", port = " + data)
+        print("*** Putting data to main database ***")
         temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
-        self.stub.put(temmRequest)
-        # print("temReq = ", temReq)
-        # return self.stub.put(temmRequest)
-        return
+        print("temReq = ", temmRequest.data)
+        return self.stub.put(temmRequest)
 
     def get(self, key):
         print("*** Geting data from main database ***")
@@ -61,8 +56,8 @@ def run(host, port):
         while True:
             print("Server started at...%d" % port)
             client = MyDatastoreSlaveServicer()
-            print("sssssssssssssss",client.slaveId, client.port)
-            client.put("client.slaveId", "str(client.port)")
+            print("sssssssssssssss", client.slaveId, client.port)
+            client.put("000000000", "1111111111")
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
