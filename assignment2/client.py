@@ -48,5 +48,5 @@ elif len(sys.argv) == 2:
     response = client.get(searchKey)
     print(response)
 else:
-    print("Wrong Input. Please follow the input format as follows:\nExample for inserting key-value data: client.py key1 value1 \nExample for getting data from key1: client.py key1")
+    print("Wrong Input. Please follow the input format as follows:\nExample for inserting key-value data: client.py key1 value1 \nExample for slave server: python serverSlave.py")
     exit()

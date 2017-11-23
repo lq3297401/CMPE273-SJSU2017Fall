@@ -24,12 +24,22 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
         self.channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', MASTERSERVERPORT))
         self.stub = datastore_pb2_grpc.DatastoreStub(self.channel)
 
-        # os.system('rm serverSlave.db/LOCK')
-        # self.db = rocksdb.DB("serverSlave.db", rocksdb.Options(create_if_missing=True))
+        #os.system('rm serverSlave.db/LOCK')
+        self.db = rocksdb.DB("serverSlave.db", rocksdb.Options(create_if_missing=True))
         self.slaveId = "0001"
         self.port = PORT
 
         print("-------- Slave server start --------")
+    def sync(self, request, context):
+        '''
+        put data into RocksDB
+        '''
+        if(request.requestType=="data"):
+            print("*** Put data into RocksDB ***")
+            # print(request)
+            print(request)
+            self.db.put(request.key, request.data)
+        return datastore_pb2.Response(key=request.key, data=request.data)
 
     def put(self, key, data, requestType="register"):
         print("*** Putting register info to main Dictionary ***")

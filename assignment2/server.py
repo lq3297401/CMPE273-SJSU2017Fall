@@ -27,6 +27,21 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         self.port = str(PORT)
         print("-------- Main server start --------")
 
+    def sync(self, key, data, requestType="data"):
+        # def put(self, data):
+            print("*** Putting data to main database ***")
+            print("key = " + key + ", data = " + data)
+            temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
+            # print("temReq = ", temReq)
+            for key, value in egisterInfo.iteritems():
+                print("Pushing data to the slave server Id = " + key)
+                # for(port: value)
+                port = int(value)
+                channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', port))
+                stub = datastore_pb2.DatastoreStub(self.channel)
+                stub.put(temmRequest)
+            return
+
     def put(self, request, context):
         '''
         put data into RocksDB
