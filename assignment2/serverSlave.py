@@ -50,10 +50,15 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
         print("Id = " + key + ", port = " + data)
         return self.stub.put(temmRequest)
 
-    def get(self, key):
-        print("*** Geting data from main database ***")
-        print("Search key = " + key)
-        return self.stub.get(datastore_pb2.GetRequest(key=key))
+    def get(self, request, context):
+        '''
+        get data from RocksDB
+        '''
+        print("*** Get data from RocksDB ***")
+        print(request)
+        value = self.db.get(request.key)
+        print("value = ", value)
+        return datastore_pb2.Response(key=request.key,data=value)
 
 
 def run(host, port):

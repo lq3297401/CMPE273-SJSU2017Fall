@@ -11,7 +11,7 @@ import sys
 import rocksdb
 import os
 
-PORT = 3000
+PORT = 6001
 
 class DatastoreClient():
 
