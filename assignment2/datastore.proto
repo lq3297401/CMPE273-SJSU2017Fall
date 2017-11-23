@@ -29,5 +29,6 @@ service Datastore {
    rpc get(GetRequest) returns (Response) {}
 
    rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
+   rpc getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
 
 }

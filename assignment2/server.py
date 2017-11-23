@@ -18,10 +18,33 @@ registerInfo = {
             "default SlaveServer slaveId":"default SlaveServer port"
 }
 
+PORT = 3000
+
 class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
         self.db = rocksdb.DB("server.db", rocksdb.Options(create_if_missing=True))
+        self.slaveId="0"
+        self.port=str(PORT)
         print("-------- Main server start --------")
+
+
+    def sendInfo(self, slaveId, port):
+        print("*** Sending slaveServer slaveId and port to main server ***")
+        # temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
+        temmRequest = datastore_pb2.SlaveRegisterRequest(slaveId=slaveId, port=port)
+        print("temmRequest", temmRequest)
+        # rpc sendInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
+        return datastore_pb2.SlaveRegisterResponse(slaveId=slaveId, port=port)
+
+    def getInfo(self, request, context):
+        '''
+        get slave register information
+        '''
+        print("-------- Slave server information --------")
+        print(request)
+        print("slaveId = " + request.slaveId, "port = " + request.port)
+        # getInfo(SlaveRegisterRequest) returns (SlaveRegisterResponse) {}
+        return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
 
 
     def put(self, request, context):
@@ -47,27 +70,6 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         print("value = ", value)
         return datastore_pb2.Response(key=request.key,data=value)
 
-
-
-# value = None
-# value = self.db.get(request.data.encode())
-# return datastore_pb2.Response(data=value)
-
-
-    # def register(self, request, context):
-    #     '''
-    #     get slave register information
-    #     '''
-    #     print("-------- Slave server information --------")
-    #
-    #     registerInfo[request.slaveId] = request.port
-    #     # dict = {'SlaveServer slaveId': request.slaveId, 'SlaveServer port': request.port}
-    #     # print "SlaveServer slaveId: ", dict['SlaveServer slaveId'], "SlaveServer port: ", dict[request.port]
-    #
-    #     # slaveId = self.db.put(request.slaveId, request.port)
-    #     # print("Register slaveId = " + request.slaveId + ", register port = " + request.port)
-    #     return datastore_pb2.SlaveRegisterResponse(slaveId=request.slaveId, port=request.port)
-
 def run(host, port):
     '''
     Run the GRPC server
@@ -86,4 +88,4 @@ def run(host, port):
 
 
 if __name__ == '__main__':
-    run('0.0.0.0', 3000)
+    run('0.0.0.0', PORT)

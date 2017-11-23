@@ -29,6 +29,11 @@ class DatastoreStub(object):
         request_serializer=datastore__pb2.SlaveRegisterRequest.SerializeToString,
         response_deserializer=datastore__pb2.SlaveRegisterResponse.FromString,
         )
+    self.getInfo = channel.unary_unary(
+        '/Datastore/getInfo',
+        request_serializer=datastore__pb2.SlaveRegisterRequest.SerializeToString,
+        response_deserializer=datastore__pb2.SlaveRegisterResponse.FromString,
+        )
 
 
 class DatastoreServicer(object):
@@ -56,6 +61,13 @@ class DatastoreServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def getInfo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_DatastoreServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -71,6 +83,11 @@ def add_DatastoreServicer_to_server(servicer, server):
       ),
       'sendInfo': grpc.unary_unary_rpc_method_handler(
           servicer.sendInfo,
+          request_deserializer=datastore__pb2.SlaveRegisterRequest.FromString,
+          response_serializer=datastore__pb2.SlaveRegisterResponse.SerializeToString,
+      ),
+      'getInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.getInfo,
           request_deserializer=datastore__pb2.SlaveRegisterRequest.FromString,
           response_serializer=datastore__pb2.SlaveRegisterResponse.SerializeToString,
       ),

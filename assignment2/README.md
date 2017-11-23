@@ -10,7 +10,7 @@
 
   1. Go to the file folder and build .proto:
 ```sh
-  python -m grpc.tools.protoc -I. --python_out=. -rpc_python_out=. datastore.proto
+  python -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. datastore.proto
 ```
   2. run server.py in the 1st term
   python server.py

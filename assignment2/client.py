@@ -19,8 +19,8 @@ class DatastoreClient():
         self.channel = grpc.insecure_channel('%s:%d' % (host, port))
         self.stub = datastore_pb2.DatastoreStub(self.channel)
 
-        DatabaseName = "server.db"
-        os.system('rm server.db/LOCK')
+        DatabaseName = "serverSlave.db"
+        os.system('rm serverSlave.db/LOCK')
         # DatabaseName = "db/follower_" + FollowerId + ".db"
         self.db = rocksdb.DB(DatabaseName,rocksdb.Options(create_if_missing=True))
 
