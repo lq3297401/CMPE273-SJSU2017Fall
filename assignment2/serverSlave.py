@@ -26,15 +26,15 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
 
         # os.system('rm serverSlave.db/LOCK')
         # self.db = rocksdb.DB("serverSlave.db", rocksdb.Options(create_if_missing=True))
-        self.slaveId = "1"
+        self.slaveId = "0001"
         self.port = PORT
 
         print("-------- Slave server start --------")
 
     def put(self, key, data, requestType="register"):
-        print("*** Putting data to main database ***")
+        print("*** Putting register info to main Dictionary ***")
         temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
-        print("temReq = ", temmRequest.data)
+        print("Id = " + key + ", port = " + data)
         return self.stub.put(temmRequest)
 
     def get(self, key):
@@ -56,8 +56,8 @@ def run(host, port):
         while True:
             print("Server started at...%d" % port)
             client = MyDatastoreSlaveServicer()
-            print("sssssssssssssss", client.slaveId, client.port)
-            client.put("000000000", "1111111111")
+            # print("sssssssssssssss", client.slaveId, client.port)
+            client.put(client.slaveId, str(client.port))
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)

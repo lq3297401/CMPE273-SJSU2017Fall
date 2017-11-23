@@ -15,7 +15,7 @@ import os
 from concurrent import futures
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-registerInfo = {"default SlaveServer slaveId":"default SlaveServer port"}
+registerInfo = {"SlaveId":"Slave port"}
 
 PORT = 3000
 
