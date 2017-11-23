@@ -17,7 +17,7 @@ from concurrent import futures
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 MASTERSERVERPORT = 3000
-PORT=3001
+PORT=6001
 # class MyDatastoreSlaveServicer():
 class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
@@ -25,9 +25,11 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
         self.stub = datastore_pb2_grpc.DatastoreStub(self.channel)
 
         #os.system('rm serverSlave.db/LOCK')
+        os.system('rm serverSlave.db/LOCK')
         self.db = rocksdb.DB("serverSlave.db", rocksdb.Options(create_if_missing=True))
         self.slaveId = "0001"
         self.port = PORT
+        self.put(self.slaveId, str(self.port))
 
         print("-------- Slave server start --------")
     def sync(self, request, context):
@@ -35,10 +37,11 @@ class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
         put data into RocksDB
         '''
         if(request.requestType=="data"):
-            print("*** Put data into RocksDB ***")
+            print("*** Syncing! Put data into RocksDB ***")
             # print(request)
             print(request)
             self.db.put(request.key, request.data)
+            print("*** Sync is done ***")
         return datastore_pb2.Response(key=request.key, data=request.data)
 
     def put(self, key, data, requestType="register"):
@@ -60,18 +63,17 @@ def run(host, port):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     datastore_pb2_grpc.add_DatastoreServicer_to_server(MyDatastoreSlaveServicer(), server)
     server.add_insecure_port('%s:%d' % (host, port))
+    print("Server started at...%d" % port)
     server.start()
 
     try:
         while True:
             print("Server started at...%d" % port)
-            client = MyDatastoreSlaveServicer()
-            # print("sssssssssssssss", client.slaveId, client.port)
-            client.put(client.slaveId, str(client.port))
+            # client = MyDatastoreServicer()
+            # client.getInfo(client.request, client.context)
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
-
 
 if __name__ == '__main__':
     run('0.0.0.0', PORT)

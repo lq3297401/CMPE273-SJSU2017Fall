@@ -15,8 +15,14 @@ message Response {
     string data = 2;
 }
 
+message SyncRequest {
+    string key = 1;
+    string data = 2;
+    string requestType = 3;
+}
+
 service Datastore {
+   rpc sync(SyncRequest) returns (Response) {}
    rpc put(Request) returns (Response) {}
    rpc get(GetRequest) returns (Response) {}
-   rpc sync(Request) return (Response) {}
 }

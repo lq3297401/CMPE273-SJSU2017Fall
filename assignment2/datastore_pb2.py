@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='datastore.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"9\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t2J\n\tDatastore\x12\x1c\n\x03put\x12\x08.Request\x1a\t.Response\"\x00\x12\x1f\n\x03get\x12\x0b.GetRequest\x1a\t.Response\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"9\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"=\n\x0bSyncRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t2m\n\tDatastore\x12!\n\x04sync\x12\x0c.SyncRequest\x1a\t.Response\"\x00\x12\x1c\n\x03put\x12\x08.Request\x1a\t.Response\"\x00\x12\x1f\n\x03get\x12\x0b.GetRequest\x1a\t.Response\"\x00\x62\x06proto3')
 )
 
 
@@ -138,9 +138,55 @@ _RESPONSE = _descriptor.Descriptor(
   serialized_end=142,
 )
 
+
+_SYNCREQUEST = _descriptor.Descriptor(
+  name='SyncRequest',
+  full_name='SyncRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='SyncRequest.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='data', full_name='SyncRequest.data', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='requestType', full_name='SyncRequest.requestType', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=144,
+  serialized_end=205,
+)
+
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
+DESCRIPTOR.message_types_by_name['SyncRequest'] = _SYNCREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), dict(
@@ -164,6 +210,13 @@ Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Messag
   ))
 _sym_db.RegisterMessage(Response)
 
+SyncRequest = _reflection.GeneratedProtocolMessageType('SyncRequest', (_message.Message,), dict(
+  DESCRIPTOR = _SYNCREQUEST,
+  __module__ = 'datastore_pb2'
+  # @@protoc_insertion_point(class_scope:SyncRequest)
+  ))
+_sym_db.RegisterMessage(SyncRequest)
+
 
 
 _DATASTORE = _descriptor.ServiceDescriptor(
@@ -172,13 +225,22 @@ _DATASTORE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=144,
-  serialized_end=218,
+  serialized_start=207,
+  serialized_end=316,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='sync',
+    full_name='Datastore.sync',
+    index=0,
+    containing_service=None,
+    input_type=_SYNCREQUEST,
+    output_type=_RESPONSE,
+    options=None,
+  ),
   _descriptor.MethodDescriptor(
     name='put',
     full_name='Datastore.put',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_REQUEST,
     output_type=_RESPONSE,
@@ -187,7 +249,7 @@ _DATASTORE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='get',
     full_name='Datastore.get',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_GETREQUEST,
     output_type=_RESPONSE,
@@ -218,6 +280,11 @@ try:
       Args:
         channel: A grpc.Channel.
       """
+      self.sync = channel.unary_unary(
+          '/Datastore/sync',
+          request_serializer=SyncRequest.SerializeToString,
+          response_deserializer=Response.FromString,
+          )
       self.put = channel.unary_unary(
           '/Datastore/put',
           request_serializer=Request.SerializeToString,
@@ -233,6 +300,13 @@ try:
   class DatastoreServicer(object):
     # missing associated documentation comment in .proto file
     pass
+
+    def sync(self, request, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+      context.set_details('Method not implemented!')
+      raise NotImplementedError('Method not implemented!')
 
     def put(self, request, context):
       # missing associated documentation comment in .proto file
@@ -251,6 +325,11 @@ try:
 
   def add_DatastoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
+        'sync': grpc.unary_unary_rpc_method_handler(
+            servicer.sync,
+            request_deserializer=SyncRequest.FromString,
+            response_serializer=Response.SerializeToString,
+        ),
         'put': grpc.unary_unary_rpc_method_handler(
             servicer.put,
             request_deserializer=Request.FromString,
@@ -275,6 +354,10 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
+    def sync(self, request, context):
+      # missing associated documentation comment in .proto file
+      pass
+      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
     def put(self, request, context):
       # missing associated documentation comment in .proto file
       pass
@@ -293,6 +376,11 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
+    def sync(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+      # missing associated documentation comment in .proto file
+      pass
+      raise NotImplementedError()
+    sync.future = None
     def put(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
@@ -314,14 +402,17 @@ try:
     request_deserializers = {
       ('Datastore', 'get'): GetRequest.FromString,
       ('Datastore', 'put'): Request.FromString,
+      ('Datastore', 'sync'): SyncRequest.FromString,
     }
     response_serializers = {
       ('Datastore', 'get'): Response.SerializeToString,
       ('Datastore', 'put'): Response.SerializeToString,
+      ('Datastore', 'sync'): Response.SerializeToString,
     }
     method_implementations = {
       ('Datastore', 'get'): face_utilities.unary_unary_inline(servicer.get),
       ('Datastore', 'put'): face_utilities.unary_unary_inline(servicer.put),
+      ('Datastore', 'sync'): face_utilities.unary_unary_inline(servicer.sync),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -336,14 +427,17 @@ try:
     request_serializers = {
       ('Datastore', 'get'): GetRequest.SerializeToString,
       ('Datastore', 'put'): Request.SerializeToString,
+      ('Datastore', 'sync'): SyncRequest.SerializeToString,
     }
     response_deserializers = {
       ('Datastore', 'get'): Response.FromString,
       ('Datastore', 'put'): Response.FromString,
+      ('Datastore', 'sync'): Response.FromString,
     }
     cardinalities = {
       'get': cardinality.Cardinality.UNARY_UNARY,
       'put': cardinality.Cardinality.UNARY_UNARY,
+      'sync': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
     return beta_implementations.dynamic_stub(channel, 'Datastore', cardinalities, options=stub_options)

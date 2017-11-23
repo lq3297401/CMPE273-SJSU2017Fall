@@ -14,6 +14,11 @@ class DatastoreStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.sync = channel.unary_unary(
+        '/Datastore/sync',
+        request_serializer=datastore__pb2.SyncRequest.SerializeToString,
+        response_deserializer=datastore__pb2.Response.FromString,
+        )
     self.put = channel.unary_unary(
         '/Datastore/put',
         request_serializer=datastore__pb2.Request.SerializeToString,
@@ -29,6 +34,13 @@ class DatastoreStub(object):
 class DatastoreServicer(object):
   # missing associated documentation comment in .proto file
   pass
+
+  def sync(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
   def put(self, request, context):
     # missing associated documentation comment in .proto file
@@ -47,6 +59,11 @@ class DatastoreServicer(object):
 
 def add_DatastoreServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'sync': grpc.unary_unary_rpc_method_handler(
+          servicer.sync,
+          request_deserializer=datastore__pb2.SyncRequest.FromString,
+          response_serializer=datastore__pb2.Response.SerializeToString,
+      ),
       'put': grpc.unary_unary_rpc_method_handler(
           servicer.put,
           request_deserializer=datastore__pb2.Request.FromString,
