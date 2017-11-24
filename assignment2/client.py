@@ -22,11 +22,9 @@ class DatastoreClient():
         print("--------- Client start running ---------")
 
     def put(self, key, data, requestType="data"):
-    # def put(self, data):
         print("*** Putting data to main database ***")
         print("key = " + key + ", data = " + data)
         temmRequest = datastore_pb2.Request(key=key, data=data, requestType=requestType)
-        # print("temReq = ", temReq)
         return self.stub.put(temmRequest)
 
     def get(self, key):
@@ -35,18 +33,25 @@ class DatastoreClient():
         return self.stub.get(datastore_pb2.GetRequest(key=key))
 
 
-client = DatastoreClient()
+if len(sys.argv) < 4:
+    print("Not entough argunemnt, please follow the format below:\nFor inserting key-value data:\npython client.py <host> <port> <key1> <value1> \nFor getting data from slave server:\n python serverSlave.py <host> <port> <key1>")
+    exit()
 
-if len(sys.argv) == 3:
-    insertKey = sys.argv[1]
-    insertValue = sys.argv[2]
+host = sys.argv[1]
+port = int(sys.argv[2])
+client = DatastoreClient(host, port)
+
+
+if len(sys.argv) == 5:
+    insertKey = sys.argv[3]
+    insertValue = sys.argv[4]
     client.put(insertKey,insertValue)
 
 
-elif len(sys.argv) == 2:
-    searchKey = sys.argv[1]
+elif len(sys.argv) == 4:
+    searchKey = sys.argv[3]
     response = client.get(searchKey)
     print(response)
 else:
-    print("Wrong Input. Please follow the input format as follows:\nExample for inserting key-value data: client.py key1 value1 \nExample for slave server: python serverSlave.py")
+    print("Wrong argunemnt, please follow the format below:\nFor inserting key-value data: client.py <host> <port> <key1> <value1> \nFor getting data from slave server: python serverSlave.py <host> <port> <key1>")
     exit()

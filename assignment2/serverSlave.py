@@ -1,13 +1,12 @@
 '''
 ################################## server.py #############################
-# Lab1 gRPC RocksDB Server
+# Server Slave gRPC RocksDB Server
 ################################## server.py #############################
 '''
 import time
 import grpc
 import datastore_pb2
 import datastore_pb2_grpc
-# import uuslaveId
 import rocksdb
 import sys
 import os
@@ -18,7 +17,7 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 MASTERSERVERPORT = 3000
 PORT=6001
-# class MyDatastoreSlaveServicer():
+
 class MyDatastoreSlaveServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
         self.channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', MASTERSERVERPORT))
@@ -74,8 +73,6 @@ def run(host, port):
     try:
         while True:
             print("Server started at...%d" % port)
-            # client = MyDatastoreServicer()
-            # client.getInfo(client.request, client.context)
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)

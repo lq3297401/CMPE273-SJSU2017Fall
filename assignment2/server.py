@@ -32,10 +32,8 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
             print("*** Putting data to main database ***")
             print("key = " + key + ", data = " + data)
             temmRequest = datastore_pb2.SyncRequest(key=key, data=data, requestType=requestType)
-            # print("temReq = ", temReq)
             for key, value in registerInfo.iteritems():
                 print("Pushing data to the slave server Id = " + key)
-                # for(port: value)
                 port = int(value)
                 channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', port))
                 stub = datastore_pb2.DatastoreStub(channel)
@@ -48,7 +46,6 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         '''
         if(request.requestType=="data"):
             print("*** Put data into RocksDB ***")
-            # print(request)
             print(request)
             self.db.put(request.key, request.data)
             self.sync(request.key, request.data)
@@ -84,12 +81,9 @@ def run(host, port):
     try:
         while True:
             print("Server started at...%d" % port)
-            # client = MyDatastoreServicer()
-            # client.getInfo(client.request, client.context)
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
-
 
 if __name__ == '__main__':
     run('0.0.0.0', PORT)
