@@ -8,6 +8,17 @@ message Request {
 
 message GetRequest {
     string key = 1;
+    string argu = 2;
+    string requestType = 3;
+}
+
+message DeleteRequest {
+    string key = 1;
+}
+
+message DeleteMsg {
+    string deleteMsg = 1;
+    string key = 2;
 }
 
 message Response {
@@ -25,4 +36,5 @@ service Datastore {
    rpc sync(SyncRequest) returns (Response) {}
    rpc put(Request) returns (Response) {}
    rpc get(GetRequest) returns (Response) {}
+   rpc delete(DeleteRequest) returns (DeleteMsg) {}
 }

@@ -18,16 +18,23 @@
   ```sh
     python serverSlave.py
   ```
-  * 4. run client.py in the last term with following format for inserting data:\n
+  * 4. run client.py in the last term with following format for **inserting data:**\n
       I defined the host = 0.0.0.0, master server's port = 3000.\n
       Example: python client.py 0.0.0.0 3000 AAA aaa, so the key-value pair "AAA" "aaa" will be stored in server's database and also in the slave server's database.
   ```sh
     python client.py <host> <port> <key1> <value1>
   ```
 
-  * 5. run client.py with following format for getting data:
+  * 5. run client.py with following format for **getting data**:
     I defined the host = 0.0.0.0, master server's port = 3000, slave server's port = 6001\n
     Example: python client.py 0.0.0.0 3000 AAA, so the value pair of the key "AAA" "aaa" will be find.
   ```sh
     python serverSlave.py <host> <port> <key1>
+  ```
+
+  * 6. run client.py with following format for **deleting data**:
+    I defined the host = 0.0.0.0, master server's port = 3000, slave server's port = 6001\n
+    Example: python client.py 0.0.0.0 3000 AAA delete, so the value pair of the key "AAA" "aaa" will be delete.
+  ```sh
+    python serverSlave.py <host> <port> <key1> delete
   ```
