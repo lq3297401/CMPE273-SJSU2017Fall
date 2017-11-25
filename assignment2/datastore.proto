@@ -1,24 +1,9 @@
 syntax = "proto3";
 
+
 message Request {
     string key = 1;
     string data = 2;
-    string requestType = 3;
-}
-
-message GetRequest {
-    string key = 1;
-    string argu = 2;
-    string requestType = 3;
-}
-
-message DeleteRequest {
-    string key = 1;
-}
-
-message DeleteMsg {
-    string deleteMsg = 1;
-    string key = 2;
 }
 
 message Response {
@@ -26,15 +11,13 @@ message Response {
     string data = 2;
 }
 
-message SyncRequest {
-    string key = 1;
-    string data = 2;
-    string requestType = 3;
+message PullRequest{
+	string requestInfo = 1;
 }
 
 service Datastore {
-   rpc sync(SyncRequest) returns (Response) {}
-   rpc put(Request) returns (Response) {}
-   rpc get(GetRequest) returns (Response) {}
-   rpc delete(DeleteRequest) returns (DeleteMsg) {}
+   rpc put(stream Request) returns (stream Response) {}
+   rpc delete(stream Request) returns (stream Response) {}
+   rpc get(stream Request) returns (stream Response) {}
+   rpc replicator(PullRequest) returns (stream Response) {}
 }

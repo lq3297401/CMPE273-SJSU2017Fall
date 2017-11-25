@@ -6,35 +6,24 @@
   * You will be exploring more into GRPC sync, async, and streaming.
   * You can ignore all cluster management features from the replicator.
 
-  * 1. Go to the file folder and build .proto:
+  * 1. Go to the file folder and build docker file:
   ```sh
-    python -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. datastore.proto
+    docker build -t 273web:1.0 .
   ```
-  * 2. run server.py in the 1st term:
+  * 2. Go to the file folder and build docker bridge:
   ```sh
-    python server.py
+    docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.1 dockernet
   ```
-  * 3. run slave server in the 2nd term:
+  * 3. Go to the file folder and build .proto:
   ```sh
-    python serverSlave.py
+    docker run -it --rm --name grpc-tools -v "$PWD":/usr/src/myapp -w /usr/src/myapp 273web:1.0 python3.6 -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. datastore.proto
   ```
-  * 4. run client.py in the last term with following format for **inserting data:**\n
-      I defined the host = 0.0.0.0, master server's port = 3000.\n
-      Example: python client.py 0.0.0.0 3000 AAA aaa, so the key-value pair "AAA" "aaa" will be stored in server's database and also in the slave server's database.
+  * 4. run server.py in the 1st term:
   ```sh
-    python client.py <host> <port> <key1> <value1>
+    docker run -p 3000:3000 -it --rm --name lab1-server -v "$PWD":/usr/src/myapp -w /usr/src/myapp 273web:1.0 python3.6 server.py
   ```
-
-  * 5. run client.py with following format for **getting data**:
-    I defined the host = 0.0.0.0, master server's port = 3000, slave server's port = 6001\n
-    Example: python client.py 0.0.0.0 3000 AAA, so the value pair of the key "AAA" "aaa" will be find.
+  * 5. run client.py in the 2nd term:
   ```sh
-    python serverSlave.py <host> <port> <key1>
+    docker run -it --rm --name lab1-client -v "$PWD":/usr/src/myapp -w /usr/src/myapp 273web:1.0 python3.6 client.py 192.168.0.1
   ```
-
-  * 6. run client.py with following format for **deleting data**:
-    I defined the host = 0.0.0.0, master server's port = 3000, slave server's port = 6001\n
-    Example: python client.py 0.0.0.0 3000 AAA delete, so the value pair of the key "AAA" "aaa" will be delete.
-  ```sh
-    python serverSlave.py <host> <port> <key1> delete
-  ```
+  I write the slaveServer inside the client.py as the design that professor suggested. When run the client.py, the system will generate random number and string as the key-value pair to test put, get and delete function, also I defined 2 pair of fixed key-value pair: ("testKey1", "testValue1"), ("testKey2", "testValue2") for get and delete testing.

@@ -14,25 +14,25 @@ class DatastoreStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.sync = channel.unary_unary(
-        '/Datastore/sync',
-        request_serializer=datastore__pb2.SyncRequest.SerializeToString,
-        response_deserializer=datastore__pb2.Response.FromString,
-        )
-    self.put = channel.unary_unary(
+    self.put = channel.stream_stream(
         '/Datastore/put',
         request_serializer=datastore__pb2.Request.SerializeToString,
         response_deserializer=datastore__pb2.Response.FromString,
         )
-    self.get = channel.unary_unary(
-        '/Datastore/get',
-        request_serializer=datastore__pb2.GetRequest.SerializeToString,
+    self.delete = channel.stream_stream(
+        '/Datastore/delete',
+        request_serializer=datastore__pb2.Request.SerializeToString,
         response_deserializer=datastore__pb2.Response.FromString,
         )
-    self.delete = channel.unary_unary(
-        '/Datastore/delete',
-        request_serializer=datastore__pb2.DeleteRequest.SerializeToString,
-        response_deserializer=datastore__pb2.DeleteMsg.FromString,
+    self.get = channel.stream_stream(
+        '/Datastore/get',
+        request_serializer=datastore__pb2.Request.SerializeToString,
+        response_deserializer=datastore__pb2.Response.FromString,
+        )
+    self.replicator = channel.unary_stream(
+        '/Datastore/replicator',
+        request_serializer=datastore__pb2.PullRequest.SerializeToString,
+        response_deserializer=datastore__pb2.Response.FromString,
         )
 
 
@@ -40,28 +40,28 @@ class DatastoreServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def sync(self, request, context):
+  def put(self, request_iterator, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def put(self, request, context):
+  def delete(self, request_iterator, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def get(self, request, context):
+  def get(self, request_iterator, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def delete(self, request, context):
+  def replicator(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -71,25 +71,25 @@ class DatastoreServicer(object):
 
 def add_DatastoreServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'sync': grpc.unary_unary_rpc_method_handler(
-          servicer.sync,
-          request_deserializer=datastore__pb2.SyncRequest.FromString,
-          response_serializer=datastore__pb2.Response.SerializeToString,
-      ),
-      'put': grpc.unary_unary_rpc_method_handler(
+      'put': grpc.stream_stream_rpc_method_handler(
           servicer.put,
           request_deserializer=datastore__pb2.Request.FromString,
           response_serializer=datastore__pb2.Response.SerializeToString,
       ),
-      'get': grpc.unary_unary_rpc_method_handler(
-          servicer.get,
-          request_deserializer=datastore__pb2.GetRequest.FromString,
+      'delete': grpc.stream_stream_rpc_method_handler(
+          servicer.delete,
+          request_deserializer=datastore__pb2.Request.FromString,
           response_serializer=datastore__pb2.Response.SerializeToString,
       ),
-      'delete': grpc.unary_unary_rpc_method_handler(
-          servicer.delete,
-          request_deserializer=datastore__pb2.DeleteRequest.FromString,
-          response_serializer=datastore__pb2.DeleteMsg.SerializeToString,
+      'get': grpc.stream_stream_rpc_method_handler(
+          servicer.get,
+          request_deserializer=datastore__pb2.Request.FromString,
+          response_serializer=datastore__pb2.Response.SerializeToString,
+      ),
+      'replicator': grpc.unary_stream_rpc_method_handler(
+          servicer.replicator,
+          request_deserializer=datastore__pb2.PullRequest.FromString,
+          response_serializer=datastore__pb2.Response.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

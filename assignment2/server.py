@@ -3,102 +3,92 @@
 # Lab1 gRPC RocksDB Server
 ################################## server.py #############################
 '''
+import random
 import time
 import grpc
 import datastore_pb2
 import datastore_pb2_grpc
-# import uuslaveId
+import uuid
 import rocksdb
-import sys
-import os
 
 from concurrent import futures
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-registerInfo = {}
 
-PORT = 3000
+'''
+Container
+'''
+put_tasks = []
+delete_tasks = []
+get_tasks = []
+
+'''
+Replicator decorator
+'''
+
+def my_replicator(some_function):
+    def wrapper(*args, **kwargs):
+        if args[1].requestInfo == 'put':
+            print("------------ Inserting data to main server database -----------")
+            for task in put_tasks:
+                print("Inserting key = " + task.key + ", data = "+ task.data)
+                yield task
+            print("-----** Finish inserting **-----\n")
+            put_tasks.clear()
+
+        elif args[1].requestInfo == 'delete':
+            print("------------ deleting data from main server database -----------")
+            for task in delete_tasks:
+                print("Deleting key = " + task.key + ", data = "+ task.data)
+                yield task
+            print("-----** Finish deleting **-----\n")
+            delete_tasks.clear()
+
+        elif args[1].requestInfo == 'get':
+            print("------------ getting data from main server database -----------")
+            for task in get_tasks:
+                print("Getting data that key = " + task.key + ", data = "+ task.data)
+                yield task
+            print("-----** Finish getting **-----\n")
+            get_tasks.clear()
+
+        yield some_function(*args, **kwargs)
+    return wrapper
 
 class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
     def __init__(self):
-        os.system('rm server.db/LOCK')
         self.db = rocksdb.DB("server.db", rocksdb.Options(create_if_missing=True))
-        # self.slaveId = "0"
-        self.port = str(PORT)
-        # print("registerInfo begin")
-        for key in registerInfo:
-            print "the key name is" + key + "and its value is" + registerInfo[key]
-        print("-------- Main server start --------")
 
-    def sync(self, key, data, requestType):
-        # def put(self, data):
-        if requestType=="data":
-            print("*** Putting data to slave database ***")
-            print("key = " + key + ", data = " + data)
-            temmRequest = datastore_pb2.SyncRequest(key=key, data=data, requestType=requestType)
-            for key, value in registerInfo.iteritems():
-                print("Pushing data to the slave server Id = " + key)
-                port = int(value)
-                channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', port))
-                self.stub = datastore_pb2.DatastoreStub(channel)
-                print("temmRequest:",temmRequest)
-                return self.stub.sync(temmRequest)
+    def put(self, allRequests, context):
+        for new_task in allRequests:
+            self.db.put(new_task.key.encode(), new_task.data.encode())
+            if new_task.data == self.db.get(new_task.key.encode()).decode():
+                put_tasks.append(new_task)
+            yield datastore_pb2.Response(key=new_task.key, data=new_task.data)
 
-        elif requestType=="delete":
-            print("*** Deleteing data from database ***")
-            print("Delete key = " + key)
-            temmRequest = datastore_pb2.SyncRequest(key=key, data=data, requestType=requestType)
-            for key, value in registerInfo.iteritems():
-                print("Deleteing data from the slave server Id = " + key)
-                port = int(value)
-                channel = grpc.insecure_channel('%s:%d' % ('0.0.0.0', port))
-                self.stub = datastore_pb2.DatastoreStub(channel)
-                print("temmRequest:",temmRequest)
-                return self.stub.sync(temmRequest)
+    def delete(self, allRequests, context):
+        for new_task in allRequests:
+            if self.db.get(new_task.key.encode()) == None:
+                print("Didn't find the data which key = " + str(new_task.key.encode()))
+            else:
+                print("Deleting key = " + str(new_task.key.encode()) + ", value = ", self.db.get(new_task.key.encode()))
+                self.db.delete(new_task.key.encode())
+                # delete_tasks.append(new_task)
+            yield datastore_pb2.Response(key=new_task.key, data=new_task.data)
 
+    def get(self, allRequests, context):
+        for new_task in allRequests:
+            data=self.db.get(new_task.key.encode())
+            if self.db.get(new_task.key.encode()) == None:
+                print("Didn't find the data which key = " + str(new_task.key.encode()))
+                # get_tasks.append(new_task)
+            else:
+                print("Searching key = " + str(new_task.key.encode()) + ", value = " + str(data))
+            yield datastore_pb2.Response(key=new_task.key, data=data)
 
-    def put(self, request, context):
-        '''
-        put data into RocksDB/dictionary
-        '''
-        if request.requestType=="data":
-            print("*** Put data into RocksDB ***")
-            print("key = " + request.key + ", data = " + request.data)
-            print(request)
-            self.db.put(request.key, request.data)
-            self.sync(request.key, request.data, request.requestType)
-            return datastore_pb2.Response(key=request.key, data=request.data)
-
-        elif request.requestType=="register":
-            print("*** Saving slave server data to dictionary ***")
-            print(request)
-            registerInfo[request.key] =  request.data
-            return datastore_pb2.Response(key=request.key, data=request.data)
-
-
-    def get(self, request, context):
-        '''
-        get data from RocksDB
-        '''
-        print("*** Get data from RocksDB ***")
-        print(request)
-        value = self.db.get(request.key)
-        print("value = ", value)
-        return datastore_pb2.Response(key=request.key,data=value)
-
-    def delete(self, request, context):
-        '''
-        delete data from RocksDB
-        '''
-        print("*** Delete data from RocksDB ***")
-        print(request)
-        self.db.delete(request.key)
-        value = self.db.get(request.key)
-        print("Delete key: ", request.key, "Delete value: ", value)
-        deleteMsg = "Delete successfully"
-        requestType="delete"
-        self.sync(request.key, value, requestType)
-        return datastore_pb2.DeleteMsg(deleteMsg=deleteMsg, key=request.key)
+    @my_replicator
+    def replicator(self, request, context):
+        pass
 
 def run(host, port):
     '''
@@ -117,4 +107,4 @@ def run(host, port):
         server.stop(0)
 
 if __name__ == '__main__':
-    run('0.0.0.0', PORT)
+    run('0.0.0.0', 3000)

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='datastore.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"9\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t\"<\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x61rgu\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t\"\x1c\n\rDeleteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"+\n\tDeleteMsg\x12\x11\n\tdeleteMsg\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"=\n\x0bSyncRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x13\n\x0brequestType\x18\x03 \x01(\t2\x95\x01\n\tDatastore\x12!\n\x04sync\x12\x0c.SyncRequest\x1a\t.Response\"\x00\x12\x1c\n\x03put\x12\x08.Request\x1a\t.Response\"\x00\x12\x1f\n\x03get\x12\x0b.GetRequest\x1a\t.Response\"\x00\x12&\n\x06\x64\x65lete\x12\x0e.DeleteRequest\x1a\n.DeleteMsg\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0f\x64\x61tastore.proto\"$\n\x07Request\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"%\n\x08Response\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"\"\n\x0bPullRequest\x12\x13\n\x0brequestInfo\x18\x01 \x01(\t2\x9f\x01\n\tDatastore\x12 \n\x03put\x12\x08.Request\x1a\t.Response\"\x00(\x01\x30\x01\x12#\n\x06\x64\x65lete\x12\x08.Request\x1a\t.Response\"\x00(\x01\x30\x01\x12 \n\x03get\x12\x08.Request\x1a\t.Response\"\x00(\x01\x30\x01\x12)\n\nreplicator\x12\x0c.PullRequest\x1a\t.Response\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -46,13 +46,6 @@ _REQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='requestType', full_name='Request.requestType', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -66,121 +59,7 @@ _REQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=19,
-  serialized_end=76,
-)
-
-
-_GETREQUEST = _descriptor.Descriptor(
-  name='GetRequest',
-  full_name='GetRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='GetRequest.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='argu', full_name='GetRequest.argu', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='requestType', full_name='GetRequest.requestType', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=78,
-  serialized_end=138,
-)
-
-
-_DELETEREQUEST = _descriptor.Descriptor(
-  name='DeleteRequest',
-  full_name='DeleteRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='DeleteRequest.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=140,
-  serialized_end=168,
-)
-
-
-_DELETEMSG = _descriptor.Descriptor(
-  name='DeleteMsg',
-  full_name='DeleteMsg',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='deleteMsg', full_name='DeleteMsg.deleteMsg', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='key', full_name='DeleteMsg.key', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=170,
-  serialized_end=213,
+  serialized_end=55,
 )
 
 
@@ -217,35 +96,21 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=215,
-  serialized_end=252,
+  serialized_start=57,
+  serialized_end=94,
 )
 
 
-_SYNCREQUEST = _descriptor.Descriptor(
-  name='SyncRequest',
-  full_name='SyncRequest',
+_PULLREQUEST = _descriptor.Descriptor(
+  name='PullRequest',
+  full_name='PullRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='SyncRequest.key', index=0,
+      name='requestInfo', full_name='PullRequest.requestInfo', index=0,
       number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='data', full_name='SyncRequest.data', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='requestType', full_name='SyncRequest.requestType', index=2,
-      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -262,16 +127,13 @@ _SYNCREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=254,
-  serialized_end=315,
+  serialized_start=96,
+  serialized_end=130,
 )
 
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
-DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
-DESCRIPTOR.message_types_by_name['DeleteRequest'] = _DELETEREQUEST
-DESCRIPTOR.message_types_by_name['DeleteMsg'] = _DELETEMSG
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
-DESCRIPTOR.message_types_by_name['SyncRequest'] = _SYNCREQUEST
+DESCRIPTOR.message_types_by_name['PullRequest'] = _PULLREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), dict(
@@ -281,27 +143,6 @@ Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,
   ))
 _sym_db.RegisterMessage(Request)
 
-GetRequest = _reflection.GeneratedProtocolMessageType('GetRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETREQUEST,
-  __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:GetRequest)
-  ))
-_sym_db.RegisterMessage(GetRequest)
-
-DeleteRequest = _reflection.GeneratedProtocolMessageType('DeleteRequest', (_message.Message,), dict(
-  DESCRIPTOR = _DELETEREQUEST,
-  __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:DeleteRequest)
-  ))
-_sym_db.RegisterMessage(DeleteRequest)
-
-DeleteMsg = _reflection.GeneratedProtocolMessageType('DeleteMsg', (_message.Message,), dict(
-  DESCRIPTOR = _DELETEMSG,
-  __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:DeleteMsg)
-  ))
-_sym_db.RegisterMessage(DeleteMsg)
-
 Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Message,), dict(
   DESCRIPTOR = _RESPONSE,
   __module__ = 'datastore_pb2'
@@ -309,64 +150,13 @@ Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Messag
   ))
 _sym_db.RegisterMessage(Response)
 
-SyncRequest = _reflection.GeneratedProtocolMessageType('SyncRequest', (_message.Message,), dict(
-  DESCRIPTOR = _SYNCREQUEST,
+PullRequest = _reflection.GeneratedProtocolMessageType('PullRequest', (_message.Message,), dict(
+  DESCRIPTOR = _PULLREQUEST,
   __module__ = 'datastore_pb2'
-  # @@protoc_insertion_point(class_scope:SyncRequest)
+  # @@protoc_insertion_point(class_scope:PullRequest)
   ))
-_sym_db.RegisterMessage(SyncRequest)
+_sym_db.RegisterMessage(PullRequest)
 
-
-
-_DATASTORE = _descriptor.ServiceDescriptor(
-  name='Datastore',
-  full_name='Datastore',
-  file=DESCRIPTOR,
-  index=0,
-  options=None,
-  serialized_start=318,
-  serialized_end=467,
-  methods=[
-  _descriptor.MethodDescriptor(
-    name='sync',
-    full_name='Datastore.sync',
-    index=0,
-    containing_service=None,
-    input_type=_SYNCREQUEST,
-    output_type=_RESPONSE,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='put',
-    full_name='Datastore.put',
-    index=1,
-    containing_service=None,
-    input_type=_REQUEST,
-    output_type=_RESPONSE,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='get',
-    full_name='Datastore.get',
-    index=2,
-    containing_service=None,
-    input_type=_GETREQUEST,
-    output_type=_RESPONSE,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='delete',
-    full_name='Datastore.delete',
-    index=3,
-    containing_service=None,
-    input_type=_DELETEREQUEST,
-    output_type=_DELETEMSG,
-    options=None,
-  ),
-])
-_sym_db.RegisterServiceDescriptor(_DATASTORE)
-
-DESCRIPTOR.services_by_name['Datastore'] = _DATASTORE
 
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
@@ -388,25 +178,25 @@ try:
       Args:
         channel: A grpc.Channel.
       """
-      self.sync = channel.unary_unary(
-          '/Datastore/sync',
-          request_serializer=SyncRequest.SerializeToString,
-          response_deserializer=Response.FromString,
-          )
-      self.put = channel.unary_unary(
+      self.put = channel.stream_stream(
           '/Datastore/put',
           request_serializer=Request.SerializeToString,
           response_deserializer=Response.FromString,
           )
-      self.get = channel.unary_unary(
-          '/Datastore/get',
-          request_serializer=GetRequest.SerializeToString,
+      self.delete = channel.stream_stream(
+          '/Datastore/delete',
+          request_serializer=Request.SerializeToString,
           response_deserializer=Response.FromString,
           )
-      self.delete = channel.unary_unary(
-          '/Datastore/delete',
-          request_serializer=DeleteRequest.SerializeToString,
-          response_deserializer=DeleteMsg.FromString,
+      self.get = channel.stream_stream(
+          '/Datastore/get',
+          request_serializer=Request.SerializeToString,
+          response_deserializer=Response.FromString,
+          )
+      self.replicator = channel.unary_stream(
+          '/Datastore/replicator',
+          request_serializer=PullRequest.SerializeToString,
+          response_deserializer=Response.FromString,
           )
 
 
@@ -414,28 +204,28 @@ try:
     # missing associated documentation comment in .proto file
     pass
 
-    def sync(self, request, context):
+    def put(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def put(self, request, context):
+    def delete(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def get(self, request, context):
+    def get(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def delete(self, request, context):
+    def replicator(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -445,25 +235,25 @@ try:
 
   def add_DatastoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'sync': grpc.unary_unary_rpc_method_handler(
-            servicer.sync,
-            request_deserializer=SyncRequest.FromString,
-            response_serializer=Response.SerializeToString,
-        ),
-        'put': grpc.unary_unary_rpc_method_handler(
+        'put': grpc.stream_stream_rpc_method_handler(
             servicer.put,
             request_deserializer=Request.FromString,
             response_serializer=Response.SerializeToString,
         ),
-        'get': grpc.unary_unary_rpc_method_handler(
-            servicer.get,
-            request_deserializer=GetRequest.FromString,
+        'delete': grpc.stream_stream_rpc_method_handler(
+            servicer.delete,
+            request_deserializer=Request.FromString,
             response_serializer=Response.SerializeToString,
         ),
-        'delete': grpc.unary_unary_rpc_method_handler(
-            servicer.delete,
-            request_deserializer=DeleteRequest.FromString,
-            response_serializer=DeleteMsg.SerializeToString,
+        'get': grpc.stream_stream_rpc_method_handler(
+            servicer.get,
+            request_deserializer=Request.FromString,
+            response_serializer=Response.SerializeToString,
+        ),
+        'replicator': grpc.unary_stream_rpc_method_handler(
+            servicer.replicator,
+            request_deserializer=PullRequest.FromString,
+            response_serializer=Response.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -479,19 +269,19 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def sync(self, request, context):
+    def put(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def put(self, request, context):
+    def delete(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def get(self, request, context):
+    def get(self, request_iterator, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def delete(self, request, context):
+    def replicator(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
@@ -505,26 +295,22 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def sync(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def put(self, request_iterator, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    sync.future = None
-    def put(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def delete(self, request_iterator, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    put.future = None
-    def get(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def get(self, request_iterator, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    get.future = None
-    def delete(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def replicator(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    delete.future = None
 
 
   def beta_create_Datastore_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -534,22 +320,22 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('Datastore', 'delete'): DeleteRequest.FromString,
-      ('Datastore', 'get'): GetRequest.FromString,
+      ('Datastore', 'delete'): Request.FromString,
+      ('Datastore', 'get'): Request.FromString,
       ('Datastore', 'put'): Request.FromString,
-      ('Datastore', 'sync'): SyncRequest.FromString,
+      ('Datastore', 'replicator'): PullRequest.FromString,
     }
     response_serializers = {
-      ('Datastore', 'delete'): DeleteMsg.SerializeToString,
+      ('Datastore', 'delete'): Response.SerializeToString,
       ('Datastore', 'get'): Response.SerializeToString,
       ('Datastore', 'put'): Response.SerializeToString,
-      ('Datastore', 'sync'): Response.SerializeToString,
+      ('Datastore', 'replicator'): Response.SerializeToString,
     }
     method_implementations = {
-      ('Datastore', 'delete'): face_utilities.unary_unary_inline(servicer.delete),
-      ('Datastore', 'get'): face_utilities.unary_unary_inline(servicer.get),
-      ('Datastore', 'put'): face_utilities.unary_unary_inline(servicer.put),
-      ('Datastore', 'sync'): face_utilities.unary_unary_inline(servicer.sync),
+      ('Datastore', 'delete'): face_utilities.stream_stream_inline(servicer.delete),
+      ('Datastore', 'get'): face_utilities.stream_stream_inline(servicer.get),
+      ('Datastore', 'put'): face_utilities.stream_stream_inline(servicer.put),
+      ('Datastore', 'replicator'): face_utilities.unary_stream_inline(servicer.replicator),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -562,22 +348,22 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('Datastore', 'delete'): DeleteRequest.SerializeToString,
-      ('Datastore', 'get'): GetRequest.SerializeToString,
+      ('Datastore', 'delete'): Request.SerializeToString,
+      ('Datastore', 'get'): Request.SerializeToString,
       ('Datastore', 'put'): Request.SerializeToString,
-      ('Datastore', 'sync'): SyncRequest.SerializeToString,
+      ('Datastore', 'replicator'): PullRequest.SerializeToString,
     }
     response_deserializers = {
-      ('Datastore', 'delete'): DeleteMsg.FromString,
+      ('Datastore', 'delete'): Response.FromString,
       ('Datastore', 'get'): Response.FromString,
       ('Datastore', 'put'): Response.FromString,
-      ('Datastore', 'sync'): Response.FromString,
+      ('Datastore', 'replicator'): Response.FromString,
     }
     cardinalities = {
-      'delete': cardinality.Cardinality.UNARY_UNARY,
-      'get': cardinality.Cardinality.UNARY_UNARY,
-      'put': cardinality.Cardinality.UNARY_UNARY,
-      'sync': cardinality.Cardinality.UNARY_UNARY,
+      'delete': cardinality.Cardinality.STREAM_STREAM,
+      'get': cardinality.Cardinality.STREAM_STREAM,
+      'put': cardinality.Cardinality.STREAM_STREAM,
+      'replicator': cardinality.Cardinality.UNARY_STREAM,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
     return beta_implementations.dynamic_stub(channel, 'Datastore', cardinalities, options=stub_options)
