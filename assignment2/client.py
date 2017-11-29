@@ -59,14 +59,6 @@ class DatastoreClient():
         for dataRequest in dataRequests:
             print("Inserting data to Main server that key = " + dataRequest.key + ", value = " + dataRequest.data)
 
-    def delete(self):
-        dataRequests = self.stub.delete(generateTestCases())
-        if dataRequests == None:
-            print("Didn't find the data for deleting that key = " + dataRequest.key)
-        else:
-            for dataRequest in dataRequests:
-                print("Deleting data from Main server that key = " + dataRequest.key + ", value = " + dataRequest.data)
-
     def get(self):
         dataRequests = self.stub.get(generateTestCases())
         if dataRequests == None:
@@ -76,33 +68,44 @@ class DatastoreClient():
                 data=self.db.get(dataRequest.key.encode())
                 print("Getting data from Main server that key = " + dataRequest.key  + ", value = " + str(data))
 
+    def delete(self):
+        dataRequests = self.stub.delete(generateTestCases())
+        if dataRequests == None:
+            print("Didn't find the data for deleting that key = " + dataRequest.key)
+        else:
+            for dataRequest in dataRequests:
+                print("Deleting data from Main server that key = " + dataRequest.key + ", value = " + dataRequest.data)
+
     '''
     streaming data main server send to slave server
     '''
 
     def replicator(self, requestInfo):
         dataRequest = self.stub.replicator(datastore_pb2.PullRequest(requestInfo=requestInfo))
+
         if requestInfo == 'put':
             for requestInfo in dataRequest:
                 self.db.put(requestInfo.key.encode(), requestInfo.data.encode())
                 if requestInfo.data == self.db.get(requestInfo.key.encode()).decode():
                     print("Inserting data to Slave server that key = " + requestInfo.key + ", value = " + requestInfo.data)
 
-        elif requestInfo == 'delete':
-            for requestInfo in dataRequest:
-                self.db.delete(requestInfo.key.encode())
-                if self.db.get(requestInfo.key.encode()) == None:
-                    print("Didn't find data for deleting that key = " + requestInfo.key)
-                else:
-                    print("Deleting data that key = " + requestInfo.key + ", value = " + requestInfo.data)
-
         elif requestInfo == 'get':
             for requestInfo in dataRequest:
-                self.db.get(requestInfo.key.encode())
-                if self.db.get(requestInfo.key.encode()) == None:
+                getValue = self.db.get(requestInfo.key.encode())
+                if getValue == None:
                     print("Didn't find data for geting that key = " + requestInfo.key)
                 else:
-                    print("Deleting data that key = " + requestInfo.key + ", value = " + requestInfo.data)
+                    print("Getting data that key = " + str(requestInfo.key) + ", value = " + str(getValue))
+
+        elif requestInfo == 'delete':
+            for requestInfo in dataRequest:
+                getValue = self.db.get(requestInfo.key.encode())
+                if getValue == None:
+                    print("Didn't find data for deleting that key = " + requestInfo.key)
+                else:
+                    self.db.delete(requestInfo.key.encode())
+                    print("Deleting data that key = " + str(requestInfo.key) + ", value = " + str(getValue))
+
 
 def main():
     parser = argparse.ArgumentParser()
